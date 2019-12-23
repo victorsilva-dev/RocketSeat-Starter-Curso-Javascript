@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Page Title</title>
+</head>
+
+<body>
+    <main>
+        <ul id="ulDaLista">
+        </ul>
+
+    </main>
+    <script>
+
+        function createListItem(p_nome) {
+            var li = document.createElement("li")
+            li.innerHTML = p_nome
+            var container = document.querySelector("#ulDaLista")
+            container.appendChild(li)
+        } 
+
+        var nomes = ["Diego", "Gabriel", "Lucas"]
+
+        for (var name of nomes) {
+            createListItem(name)
+        }
+        
+    </script>
+</body>
+
+</html>
