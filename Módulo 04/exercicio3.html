@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='utf-8'>
+	<title>Page Title</title>
+</head>
+
+<body>
+	<main>
+		<input type="text" name="nome">
+		<button onClick="adicionar()">Adicionar</button>
+		<ul id="ulDaLista">
+		</ul>
+
+	</main>
+	<script>
+
+		var container = document.querySelector("#ulDaLista")
+
+		function getRepos(user) {
+			return new Promise(function (resolve, reject) {
+				var xhr = new XMLHttpRequest()
+				xhr.open("GET", 'https://api.github.com/users/' + user + '/repos')
+				xhr.send(null)
+				createListItem("Carregando")
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === 4) {
+						if (xhr.status === 200) {
+							setTimeout(function () {resolve(JSON.parse(xhr.responseText))}, 1000)
+						} else {
+							reject("Erro na requisição")
+						}
+					}
+				}
+			})
+		}
+
+		function createListItem(p_repo) {
+			var li = document.createElement("li")
+			li.innerHTML = p_repo
+			container.appendChild(li)
+		}
+
+
+		function adicionar() {
+			var input = document.querySelector("input")
+			var value = input.value.trim()
+			input.value = null
+			repositorios = []
+			if (value !== "") {
+				document.querySelector("ul").innerHTML = ""
+				getRepos(value)
+					.then(function (response) {
+						container.innerHTML = ""
+						for (var repo of response) {
+							repositorios.push(repo.name)
+						}
+						for (var items of repositorios) {
+							createListItem(items)
+						}
+					})
+					.catch(function (error) {
+						container.innerHTML = ""
+						repositorios.push("Usuário não encontrado")
+						for (var items of repositorios) {
+							createListItem(items)
+						}
+					})
+			}
+		}
+	</script>
+</body>
+
+</html>

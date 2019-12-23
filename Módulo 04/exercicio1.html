@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Page Title</title>
+</head>
+
+<body>
+    <main>
+    </main>
+    <script>
+			function checaIdade(idade) {
+				return new Promise(function(resolve, reject) {
+					console.log("carregando")
+					setTimeout(function() {
+						if(idade > 18) {
+							resolve("Maior que 18")
+						} else {
+							reject("Menor que 18")
+						}
+					}, 2000)
+				})
+			}
+			checaIdade(12)
+				.then(function(response) {
+					console.log(response)
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+    </script>
+</body>
+
+</html>
